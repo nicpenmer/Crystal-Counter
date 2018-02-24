@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Crystal Game</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <script src="assets/javascript/game.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+  <h1><div id="header">
+    <p>
+      <strong>Crystals Collector!</strong>
+    </p>
+  </div>
+</h1>
+  <div id="instructions">
+    <p>You will be given a random number at the start of the game.</p>
+    <p>There are four crystals below. By clicking on a crystal you will add a specific amount of points to your total score.</p>
+    <p>You win the game by matching your total score to the randomly generated number. You lose the game if your score goes
+      over the random number.</p>
+    <p>The value of the crystal is hidden from you until you click on it.</p>
+    <p>Each time the game starts, the game will change the value of each crystal.</p>
+  </div>
+  <div id="goalNumber">
+    <p>
+      <strong>Goal Number:</strong>
+      <span id="goal"></span>
+    </p>
+  </div>
+  <div id="wins-losses">
+    <p id="wins">Wins:</p>
+    <p id="losses">Losses:</p>
+  </div>
+  <div class="crystal" id="crystals">
+    <img class="image" id="blue" src="assets/images/blue.png">
+    <img class="image" id="green" src="assets/images/green.png">
+    <img class="image" id="red" src="assets/images/red.png">
+    <img class="image" id="yellow" src="assets/images/yellow.png">
+  </div>
+  <div id="Score">
+    <p>
+      <strong>Score:</strong>
+      <span id="yourScore">0</span>
+    </p>
+  </div>
+
+<script>
+  $(document).ready(function () {
+
+//pick a random number as goal number
+var goalNumber = Math.floor(Math.random() * 80) + 20;
+//make sure computer is picking random number
+console.log(goalNumber);
+//display random number as goal number
+$("#goal").text(goalNumber);
+var wins = 0;
+var losses = 0;
+var previous = 0;
+
+var initializeGame = function (){
+
+
+//for loop to add random value to each crystal
+for (var i = 0; i < 4; i++) {
+  var random = Math.floor(Math.random() * 15) + 1;
+  //test in console
+  console.log(random);
+  //attach random value attribute to each crystal
+  var crystal = $("<div>");
+   crystal.attr({ "class": 'crystal',
+    "random-value": random
+  });
+  $(".crystal").append(crystal);
+}
+}
+
+initializeGame();
+
+//make them clickable
+$(document).on("click", ".crystal", function () {
+
+  $("#green").on("click", function () {
+    var greenCrystal = document.getElementById("#green");
+    console.log(greenCrystal);
+  });
+
+  $("#blue").on("click", function () {
+    var blueCrystal =  document.getElementById("#blue");
+    console.log(blueCrystal);
+  });
+
+ $("#red").on("click", function () {
+   var redCrystal =  document.getElementById("#red");
+    console.log(redCrystal);
+  });
+
+  $("#yellow").on("click", function () {
+    var yellowCrystal =  document.getElementById("#yellow");
+    console.log(yellowCrystal);
+  });
+  // coming up as null currently. FIX THIS..
+
+
+
+  //change value to integer
+  var num = parseInt($(this).attr("random-value"));
+
+  //make clicks addable - add to previous score
+  previous += num;
+  console.log(previous);
+
+  //if score = goal number then win
+  if (previous === goalNumber){
+     //win ++
+    win++;
+    console.log("you won.");
+    previous = 0;
+  }
+  //if score > goal number then loss
+  else if (previous > goalNumber){
+    //loss ++
+    loss++; 
+    console.log("you lost.")
+    previous = 0; 
+  }
+  
+  //reset game
+  initializeGame();
+
+
+});
+});
+</script>
+
+</body>
+
+</html>
